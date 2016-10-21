@@ -83,13 +83,16 @@ class PegawaiController extends AdminController
 
     public function getJabatan()
     {
-    	$id = request()->get('id');
+    	if(request()->ajax())
+    	{
+    		$id = request()->get('id');
 
-    	$model = SqlRepo::comboPositions($id);
-    	return response()->json([
-    		'result'=>$model,
-    	]);
-    }
+	    	$model = SqlRepo::comboPositions($id);
+	    	return response()->json([
+	    		'result'=>$model,
+	    	]);
+    	}
+	}
 
     public function getData()
     {
