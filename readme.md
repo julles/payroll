@@ -19,7 +19,7 @@ yang mau liat liat bisa diinstall ya :v
 clone project atau download source mybackend
 
 ```sh
-clone https://github.com/julles/mybackend.git
+clone https://github.com/julles/payroll.git
 ```
 
 install depedencies
