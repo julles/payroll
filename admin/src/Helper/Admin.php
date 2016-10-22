@@ -428,4 +428,15 @@ class Admin
 	{
 		$this->getMenu($slug)->delete();
 	}
+
+	function formatMoney($int)
+	{
+		$numberFormat = number_format($int,2);
+
+		$replace = str_replace(",", ".", $numberFormat);
+
+		$substring = substr($replace , 0 , -3);
+
+		return $substring;
+	}
 }

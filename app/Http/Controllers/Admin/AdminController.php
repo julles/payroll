@@ -58,7 +58,7 @@ class AdminController extends Controller
     }
 
     
-    public function form($model,$setForm)
+    public function form($model,$setForm,$variables = [])
     {
         $model = $model;
 
@@ -67,6 +67,7 @@ class AdminController extends Controller
         return view('admin.scaffolding.form' , [
             'model'=>$model,
             'forms'=>$forms,
+            $variables,
         ]);
     }
 

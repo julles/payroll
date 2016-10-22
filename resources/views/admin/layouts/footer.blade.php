@@ -96,7 +96,10 @@
 <!-- AdminLTE App -->
 <script src="{{ Admin::assetAdmin() }}/dist/js/app.min.js"></script>
 <script src="{{ Admin::assetAdmin() }}/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="{{asset('1.8.0.js')}}"></script>
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<?php /*<script src="{{asset('1.8.0.js')}}"></script> */ ?>
 
 @include("admin.js.app")
 

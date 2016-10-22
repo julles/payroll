@@ -20,7 +20,12 @@ class PegawaiController extends AdminController
     	$this->view = 'admin.master_data.pegawai.';
 	}
 
-	public function setForm()
+	public function position($position_id)
+	{
+		return [''=>'Pilih Jabatan'] + SqlRepo::comboPositions($position_id);
+	}
+
+	public function setForm($department="")
     {
         $forms = [
             'department_id' => [
@@ -28,12 +33,13 @@ class PegawaiController extends AdminController
                 'label'=>'Department',
                 'properties'=>['class'=>'form-control','id'=>'department_id'],
                 'selects'=> [''=>'Pilih Departemen']+SqlRepo::comboDepartments(),
+                'value'=>$department,
             ],
             'position_id' => [
                 'type'=>'select',
                 'label'=>'Jabatan',
                 'properties'=>['class'=>'form-control','id'=>'position_id'],
-                'selects'=> [''=>'Pilih Jabatan'],
+                'selects'=> $this->position(request()->department_id),
             ],
             'nip' => [
                 'type'=>'text',
@@ -74,6 +80,53 @@ class PegawaiController extends AdminController
             'phone' => [
                 'type'=>'text',
                 'label'=>'No Telepon',
+                'properties'=>['class'=>'form-control','maxlength'=>'15'],
+            ],
+            'religion' => [
+                'type'=>'select',
+                'label'=>'Agama',
+                'properties'=>['class'=>'form-control'],
+                'selects'=> [
+                		'islam'=>'Islam',
+                		'kristen'=>'Kristen',
+                		'katolik'=>'Katolik',
+                		'budha'=>'Budha',
+                		'konghucu'=>'Konghucu',
+               	],
+            ],
+            'number_id' => [
+                'type'=>'text',
+                'label'=>'No Identitas',
+                'properties'=>['class'=>'form-control','maxlength'=>'20'],
+            ],
+            'foto'	=> [
+    			'type'=>'file',
+    			'properties'=>[
+    				'class'=>null,
+    			],
+    		],
+    		'email' => [
+                'type'=>'text',
+                'label'=>'E-mail',
+                'properties'=>['class'=>'form-control','maxlength'=>'50'],
+            ],
+            'join_date' => [
+                'type'=>'text',
+                'label'=>'Tanggal Masuk',
+                'properties'=>['class'=>'form-control','readonly'=>true,'id'=>'datepicker2'],
+            ],
+            'basic_salary' => [
+                'type'=>'text',
+                'label'=>'Gaji Pokok',
+                'properties'=>['class'=>'form-control','maxlength'=>'15'],
+            ],
+            'meal_allowance' => [
+                'type'=>'text',
+                'label'=>'Uang Makan',
+                'properties'=>['class'=>'form-control','maxlength'=>'15'],
+            ],
+            'transport' => [
+                'type'=>'text',
                 'properties'=>['class'=>'form-control','maxlength'=>'15'],
             ],
         ];
@@ -118,5 +171,52 @@ class PegawaiController extends AdminController
     public function getCreate()
     {
         return $this->form($this->model,$this->setForm());
+    }
+
+    public function postCreate(Requests\Admin\MasterData\Pegawai $request)
+    {
+   		$inputs = $request->all();
+   		$inputs['foto']=$this->handleUpload($request,$this->model,'foto',[100,100]);
+		$inputs['overtime']=$this->overtime($request->basic_salary);
+		return $this->insertOrUpdate($inputs,$this->model);
+    }
+
+    public function getUpdate($id)
+    {
+    	$model = $this->model->findOrFail($id);
+
+    	$department = $model->position->department_id;
+
+        return $this->form($model,$this->setForm($department));
+    }
+
+    public function postUpdate(Requests\Admin\MasterData\Pegawai $request,$id)
+    {
+    	$model = $this->model->findOrFail($id);
+   		$inputs = $request->all();
+   		$inputs['foto']=$this->handleUpload($request,$model,'foto',[100,100]);
+		$inputs['overtime']=$this->overtime($request->basic_salary);
+		return $this->insertOrUpdate($inputs,$model);
+    }
+
+    public function getView($id)
+    {
+    	$model = $this->model->findOrFail($id);
+    	return view($this->view.'view',compact('model'));
+    }
+
+    public function overtime($basic_salary)
+    {
+    	$day = $basic_salary / 20;
+
+    	$hour = $day / 9;
+
+    	return ceil($hour);
+    }
+
+    public function getDelete($id)
+    {
+        $model = $this->model->findOrFail($id);
+        return $this->delete($model,[$model->foto]);
     }
 }

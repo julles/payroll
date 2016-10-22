@@ -12,7 +12,9 @@ Route::group(['middlewareGroups'=>['web']] , function(){
 });
 
 Route::group(['middleware'=>['auth','admin'] ,'prefix'=> \Admin::backendUrl()] , function(){
-
+	
+	\App::setLocale('id');
+	
 	if(\Schema::hasTable('menus'))
 	{
 		foreach(\Site::parentIsNotNull() as $row)

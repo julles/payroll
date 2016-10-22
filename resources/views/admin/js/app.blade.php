@@ -21,3 +21,16 @@
 			});
 		</script>
 @endif
+
+
+<script type="text/javascript">
+	  $( function() {
+	    $( "#datepicker,#datepicker2" ).datepicker({
+	      changeMonth: true,
+	      changeYear: true,
+	      dateFormat: "yy-mm-dd",
+	      yearRange: '1945:{{ date("Y") }}',
+	    });
+	  } );
+
+</script>
