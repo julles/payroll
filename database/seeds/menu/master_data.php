@@ -39,3 +39,11 @@
             'slug'=>'pegawai',
             'order'=>3,
         ],['index','create','update','delete','view']);
+
+        \Admin::addMenu([
+            'parent_id'=>'master-data',
+            'title'=>'Kalender',
+            'controller'=>'Admin\MasterData\KalenderController',
+            'slug'=>'kalender',
+            'order'=>4,
+        ],['index','create','update','delete']);

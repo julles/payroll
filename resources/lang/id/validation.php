@@ -125,6 +125,11 @@ return [
         'email'=>'E-mail',
         'basic_salary'=>'Gaji Pokok',
         'meal_allowance'=>'E-mail',
+        'department'=>'Department',
+        'position'=>'Jabatan',
+        'date'=>'Tanggal',
+        'event_name'=>'Nama Event',
+        'type'=>'Tipe'
     ],
 
 ];

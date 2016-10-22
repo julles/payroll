@@ -439,4 +439,18 @@ class Admin
 
 		return $substring;
 	}
+
+	public function toString($string = "")
+	{
+		$replace = str_replace("_"," ",$string);
+
+		return ucwords($replace);
+	}
+
+	public function toUnderscore($string)
+	{
+		$replace = str_replace(" ","_",$string);
+
+		return strtolower($replace);
+	}
 }
