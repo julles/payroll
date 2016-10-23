@@ -15,7 +15,7 @@ return [
 
     'accepted'             => 'The :attribute must be accepted.',
     'active_url'           => 'The :attribute is not a valid URL.',
-    'after'                => 'The :attribute must be a date after :date.',
+    'after'                => ':attribute Harus setelah :date.',
     'alpha'                => 'The :attribute may only contain letters.',
     'alpha_dash'           => 'The :attribute may only contain letters, numbers, and dashes.',
     'alpha_num'            => 'The :attribute may only contain letters and numbers.',
@@ -129,7 +129,8 @@ return [
         'position'=>'Jabatan',
         'date'=>'Tanggal',
         'event_name'=>'Nama Event',
-        'type'=>'Tipe'
+        'type'=>'Tipe',
+        'reason'=>'Alasan',
     ],
 
 ];

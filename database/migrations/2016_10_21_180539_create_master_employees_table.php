@@ -14,6 +14,7 @@ class CreateMasterEmployeesTable extends Migration
     {
         Schema::create('master_employees', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id')->unsigned();
             $table->integer('position_id')->unsigned();
             $table->string('nip',10);
             $table->string('name',40);
@@ -27,7 +28,6 @@ class CreateMasterEmployeesTable extends Migration
             $table->enum('religion',['islam','kristen','katolik','budha','hindu','konghucu']);
             $table->string('number_id',20);
             $table->string('foto',50)->nullable();
-            $table->string('email',50);
             $table->date('join_date',50);
             $table->integer('basic_salary');
             $table->integer('meal_allowance');
@@ -35,6 +35,12 @@ class CreateMasterEmployeesTable extends Migration
             $table->integer('overtime');
             $table->binary('finger_id')->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onUpdate('cascade')
+                ->onDelete('restrict');
 
             $table->foreign('position_id')
                 ->references('id')

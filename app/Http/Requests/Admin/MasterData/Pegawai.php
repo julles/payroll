@@ -34,7 +34,6 @@ class Pegawai extends Request
             'postal_code'=>'required|max:8',
             'phone'=>'required|max:15',
             'foto'=>'image',
-            'email'=>'required|max:50|email',
             'join_date'=>'required|date',
             'basic_salary'=>'required|numeric|max:9999999999',
             'meal_allowance'=>'required|numeric|max:9999999999',

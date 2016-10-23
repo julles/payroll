@@ -13,5 +13,6 @@ class MenuSeeder extends Seeder
     {
         include database_path('seeds/menu/common.php');
         include database_path('seeds/menu/master_data.php');
+        include database_path('seeds/menu/pegawai.php');
     }
 }

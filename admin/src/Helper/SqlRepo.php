@@ -1,7 +1,9 @@
 <?php namespace Admin\Helper;
 
 use App\Models\MasterDepartment;
+use App\Models\MasterEmployee;
 use App\Models\MasterPosition;
+use App\User;
 
 class SqlRepo
 {
@@ -26,6 +28,29 @@ class SqlRepo
 			->toArray();
 
 		return $model;
+	}
+
+	public function comboUserFiltered($id = "")
+	{
+		$model = new User;
+
+		$notIn = MasterEmployee::select('user_id')
+		->get();
+
+		if(!empty($id))
+		{
+			$notIn = $notIn->where('user_id','!=',$id);
+
+		}
+
+		$notIn = array_flatten($notIn->toArray());
+		$model = $model->whereNotIn('id',$notIn)
+		->get()
+		->lists('name_email','id')
+		->toArray();
+
+		return $model;
+
 	}
 
 }

@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Role;
+use App\Models\MasterEmployee;
 
 class User extends Authenticatable
 {
@@ -30,6 +31,11 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class,'role_id');
     }
 
+    public function employee()
+    {
+        return $this->hasOne(MasterEmployee::classs,'user_id');
+    }
+
     public function rules($id="")
     {
         return [
@@ -39,5 +45,10 @@ class User extends Authenticatable
             'verify_password'=>'same:password',
             'avatar'=>'image',
         ];
+    }
+
+    public function getNameEmailAttribute()
+    {
+        return $this->name.' ( '.$this->email.' ) ';
     }
 }

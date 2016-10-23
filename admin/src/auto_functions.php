@@ -14,3 +14,8 @@ function user()
 {
 	return auth()->user();
 }
+
+function carbon()
+{
+	return new Carbon\Carbon;
+}

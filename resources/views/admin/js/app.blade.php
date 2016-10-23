@@ -20,6 +20,19 @@
 				});
 			});
 		</script>
+@elseif(request()->segment(2)=='data-pegawai-cuti')
+<script type="text/javascript">
+	$(function(){
+		$( "#from,#to" ).datepicker({
+	      //changeMonth: true,
+	      //changeYear: true,
+	      dateFormat: "yy-mm-dd",
+	      //yearRange: '1945:{{ date("Y") }}',
+	      minDate : '{{ date("Y-m-d") }}',
+	    });	
+	});
+
+</script>
 @endif
 
 

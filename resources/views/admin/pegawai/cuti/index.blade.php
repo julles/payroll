@@ -20,8 +20,10 @@
                     <table class="table table-bordered" id = ''>
                       <thead>
                           <tr>
-                            <th>NIP</th>
-                            <th>Name</th>
+                            <th>Tanggal mulai</th>
+                            <th>Sampai Tanggal</th>
+                            <th>Alasan</th>
+                            <th>Status</th>
                             <th>Action</th>
                           </tr>
                       </thead>
@@ -46,8 +48,10 @@
         serverSide: true,
         ajax: '{!! Admin::urlBackendAction("data") !!}',
         columns: [
-            { data: 'nip', name: 'nip' },
-            { data: 'name', name: 'name' },
+            { data: 'start_date', name: 'start_date' },
+            { data: 'end_date', name: 'end_date' },
+            { data: 'reason', name: 'reason' },
+            { data: 'status', name: 'status' },
             { data: 'action', name: 'action' ,ordering:false,searchable:'false'},
             
         ]

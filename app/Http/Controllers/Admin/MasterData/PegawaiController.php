@@ -28,6 +28,12 @@ class PegawaiController extends AdminController
 	public function setForm($department="")
     {
         $forms = [
+            'user_id' => [
+                'type'=>'select',
+                'label'=>'User',
+                'properties'=>['class'=>'form-control'],
+                'selects'=> [''=>'Pilih User'] + SqlRepo::comboUserFiltered(request()->segment(4)),
+            ],
             'department_id' => [
                 'type'=>'select',
                 'label'=>'Department',
@@ -105,12 +111,7 @@ class PegawaiController extends AdminController
     				'class'=>null,
     			],
     		],
-    		'email' => [
-                'type'=>'text',
-                'label'=>'E-mail',
-                'properties'=>['class'=>'form-control','maxlength'=>'50'],
-            ],
-            'join_date' => [
+    		'join_date' => [
                 'type'=>'text',
                 'label'=>'Tanggal Masuk',
                 'properties'=>['class'=>'form-control','readonly'=>true,'id'=>'datepicker2'],
@@ -151,6 +152,7 @@ class PegawaiController extends AdminController
     {
         $fields = [
             'id',
+            'nip',
             'name',
         ];
 
