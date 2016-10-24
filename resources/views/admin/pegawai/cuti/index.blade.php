@@ -23,6 +23,7 @@
                             <th>Tanggal mulai</th>
                             <th>Sampai Tanggal</th>
                             <th>Alasan</th>
+                            <th>Jumlah Hari</th>
                             <th>Status</th>
                             <th>Action</th>
                           </tr>
@@ -51,6 +52,7 @@
             { data: 'start_date', name: 'start_date' },
             { data: 'end_date', name: 'end_date' },
             { data: 'reason', name: 'reason' },
+            { data: 'total_day', name: 'total_day' },
             { data: 'status', name: 'status' },
             { data: 'action', name: 'action' ,ordering:false,searchable:'false'},
             

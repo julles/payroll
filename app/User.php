@@ -33,7 +33,7 @@ class User extends Authenticatable
 
     public function employee()
     {
-        return $this->hasOne(MasterEmployee::classs,'user_id');
+        return $this->hasOne(MasterEmployee::class,'user_id');
     }
 
     public function rules($id="")

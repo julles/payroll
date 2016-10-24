@@ -7,17 +7,17 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Admin\AdminController;
 use App\Models\EmployeeLeave;
-use App\Models\MasterCalendar;
 use Table;
 use Admin;
-use Carbon\Carbon;
+use App\Repositories\CutiRepository;
 
 class CutiController extends AdminController
 {
- 	public function __construct(EmployeeLeave $model)
+ 	public function __construct(EmployeeLeave $model,CutiRepository $repo)
  	{
  		parent::__construct();
  		$this->model = $model;
+        $this->repo = $repo;
  		$this->view = 'admin.pegawai.cuti.';
  	}
 
@@ -52,9 +52,11 @@ class CutiController extends AdminController
             'end_date',
             'status',
             'reason',
+            'total_day'
         ];
 
-        $model = $this->model->select($fields);
+        $model = $this->model->select($fields)
+            ->where('employee_id',user()->id);
 
         return Table::of($model)
         ->editColumn('status' ,function($model){
@@ -76,7 +78,13 @@ class CutiController extends AdminController
 
     public function getIndex()
     {
-        return view($this->view.'index');
+        $model = user()->employee()->count();
+        if($model > 0)
+        {
+            return view($this->view.'index');
+        }else{
+            echo "<h2>ANDA Belum terdaftar sebagai pegawai</h2>";
+        }
     }
 
     public function getCreate()
@@ -87,7 +95,7 @@ class CutiController extends AdminController
     public function postCreate(Requests\Admin\Pegawai\Cuti $request)
     {
     	$inputs = $request->all();
-    	$inputs['total_day']=$this->total($request->start_date,$request->end_date);
+    	$inputs['total_day']=$this->repo->totalDay($request->start_date,$request->end_date);
     	$inputs['employee_id']=user()->id;
     	
     	if($inputs['total_day'] <= 0)
@@ -119,7 +127,7 @@ class CutiController extends AdminController
         }
         $inputs = $request->all();
 
-        $inputs['total_day']=$this->total($request->start_date,$request->end_date);
+        $inputs['total_day']=$this->repo->totalDay($request->start_date,$request->end_date);
         $inputs['employee_id']=user()->id;
         
         if($inputs['total_day'] <= 0)
@@ -139,22 +147,4 @@ class CutiController extends AdminController
         }
         return $this->delete($model);
     }
-
-    public function countCalendar($start_date,$end_date)
-    {
-    	$model = MasterCalendar::where('date' , '>=',$start_date)
-    		->where('date','<=',$end_date)
-    		->count();
-
-    	return $model;
-    }
-
-    public function total($start_date,$end_date)
-    {
-    	$countCalendar = $this->countCalendar($start_date,$end_date);
-    	$end_date = Carbon::parse($end_date);
-    	$start_date = Carbon::parse($start_date);
-        $totalCarbon = $end_date->diffInDays($start_date) + 1 - $countCalendar;
-    	return $totalCarbon;
-    }   
 }

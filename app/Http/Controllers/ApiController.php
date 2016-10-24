@@ -5,18 +5,30 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Models\MasterEmployee;
+
+use App\Models\FingerStatus;
 
 class ApiController extends Controller
 {
     public function getIndex()
     {
-    	$model = MasterEmployee::find(1);
-    	$finger_id = request()->get('finger_id');
-    	echo $finger_id;
-    	//return $finger_id;
-    	// $model->update([
-    	// 	'finger_id'=>$finger_id,
-    	// ]);
     }
+
+    public function getStatus()
+    {
+        $model = FingerStatus::findOrFail(1);
+
+        echo $model->status.'-'.$model->employee_id;
+    }
+
+    public function getUpdate($employee_id,$status)
+    {
+        $model = FingerStatus::findOrFail(1);
+
+        $model->update([
+            'employee_id'=>$employee_id,
+            'status'=>$status,
+        ]);
+    }
+
 }
