@@ -22,6 +22,21 @@ clone project atau download source mybackend
 clone https://github.com/julles/payroll.git
 ```
 
+copy file .env.example menjadi .env
+
+lalu setting koneksi databasenya
+
+contoh 
+
+``` sh
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3307
+DB_DATABASE=payroll
+DB_USERNAME=root
+DB_PASSWORD=
+
+```
 install depedencies
 
 ``` sh

@@ -95,7 +95,7 @@ class CutiController extends AdminController
     {
     	$inputs = $request->all();
     	$inputs['total_day']=SqlRepo::totalDay($request->start_date,$request->end_date);
-    	$inputs['employee_id']=user()->id;
+    	$inputs['employee_id']=user()->employee->id;
     	
     	if($inputs['total_day'] <= 0)
     	{
@@ -127,7 +127,7 @@ class CutiController extends AdminController
         $inputs = $request->all();
 
         $inputs['total_day']=SqlRepo::totalDay($request->start_date,$request->end_date);
-        $inputs['employee_id']=user()->id;
+        $inputs['employee_id']=user()->employee->id;
         
         if($inputs['total_day'] <= 0)
         {

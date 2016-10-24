@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\MasterPosition;
+use App\Models\Absent;
 
 class MasterEmployee extends Model
 {
@@ -14,5 +15,10 @@ class MasterEmployee extends Model
     public function position()
     {
     	return $this->belongsTo(MasterPosition::class,'position_id');
+    }
+
+    public function absents()
+    {
+    	return $this->hasMany(Absent::class,'employee_id');
     }
 }

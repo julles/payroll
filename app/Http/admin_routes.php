@@ -11,6 +11,9 @@ Route::group(['middlewareGroups'=>['web']] , function(){
 	Route::controller('login','Admin\LoginController');
 });
 
+
+Route::controller('absent','AbsentController');
+
 Route::group(['middleware'=>['auth','admin'] ,'prefix'=> \Admin::backendUrl()] , function(){
 	
 	\App::setLocale('id');
