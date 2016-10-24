@@ -9,16 +9,15 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Models\EmployeeLeave;
 use Table;
 use Admin;
-use App\Repositories\CutiRepository;
+use SqlRepo;
 
 class CutiController extends AdminController
 {
- 	public function __construct(EmployeeLeave $model,CutiRepository $repo)
+ 	public function __construct(EmployeeLeave $model)
  	{
  		parent::__construct();
  		$this->model = $model;
-        $this->repo = $repo;
- 		$this->view = 'admin.pegawai.cuti.';
+        $this->view = 'admin.pegawai.cuti.';
  	}
 
  	public function setForm()
@@ -95,7 +94,7 @@ class CutiController extends AdminController
     public function postCreate(Requests\Admin\Pegawai\Cuti $request)
     {
     	$inputs = $request->all();
-    	$inputs['total_day']=$this->repo->totalDay($request->start_date,$request->end_date);
+    	$inputs['total_day']=SqlRepo::totalDay($request->start_date,$request->end_date);
     	$inputs['employee_id']=user()->id;
     	
     	if($inputs['total_day'] <= 0)
@@ -127,7 +126,7 @@ class CutiController extends AdminController
         }
         $inputs = $request->all();
 
-        $inputs['total_day']=$this->repo->totalDay($request->start_date,$request->end_date);
+        $inputs['total_day']=SqlRepo::totalDay($request->start_date,$request->end_date);
         $inputs['employee_id']=user()->id;
         
         if($inputs['total_day'] <= 0)
