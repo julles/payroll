@@ -16,7 +16,7 @@
         </div>
         <!-- /.col -->
         <div class="col-xs-4">
-          <a  id = "absen_keluar"  onclick = "urlKeluar()" href="{{ url('api/update/10902368/absen,i') }}" class = "btn btn-danger disabled">KELUAR</a><br>
+          <a  id = "absen_keluar"  onclick = "urlKeluar()" class = "btn btn-danger disabled">KELUAR</a><br>
         </div>
         <!-- /.col -->
       </div>
@@ -62,17 +62,23 @@
 
   function urlMasuk()
   {
-    url = "{{ url('api/update/"+$("#nip").val() +"/absen,i') }}";
+    url = "/api/update/" + $("#nip").val() + "/absen,i";
     $.ajax({
       url : url,
+      success : function(){
+        document.location.href = '/absent';
+      },
     });
   }
 
   function urlKeluar()
   {
-    url = "{{ url('api/update/"+$("#nip").val() +"/absen,o') }}";
+    url = "/api/update/" + $("#nip").val() + "/absen,o";
      $.ajax({
       url : url,
+      success : function(){
+       document.location.href = '/absent';
+      },
     });
   }
 
