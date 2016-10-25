@@ -47,3 +47,11 @@
             'slug'=>'kalender',
             'order'=>4,
         ],['index','create','update','delete']);
+
+        \Admin::addMenu([
+            'parent_id'=>'master-data',
+            'title'=>'Kalender THR',
+            'controller'=>'Admin\MasterData\ThrController',
+            'slug'=>'kalender-thr',
+            'order'=>5,
+        ],['index','create','update','delete']);

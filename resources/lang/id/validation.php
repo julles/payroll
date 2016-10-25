@@ -131,6 +131,7 @@ return [
         'event_name'=>'Nama Event',
         'type'=>'Tipe',
         'reason'=>'Alasan',
+        'employee_id'=>'Pegawai',
     ],
 
 ];

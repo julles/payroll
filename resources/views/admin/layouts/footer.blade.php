@@ -98,6 +98,7 @@
 <script src="{{ Admin::assetAdmin() }}/plugins/datatables/jquery.dataTables.min.js"></script>
 
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.full.min.js"></script>
 
 <?php /*<script src="{{asset('1.8.0.js')}}"></script> */ ?>
 

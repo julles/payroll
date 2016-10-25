@@ -33,6 +33,29 @@
 	});
 
 </script>
+@elseif(request()->segment(2)=='approval-sakit-izin-alpha')
+<script type="text/javascript">
+	function getPegawai()
+	{
+		$("#employee_id").hide();
+		$.ajax({
+			type : 'get',
+			url : '{{ Admin::urlBackendAction("pegawai") }}',
+			data : {
+				date : $("#datepicker").val(),
+			},
+			success : function(data){
+				$("#employee_id").html("");
+				$("#employee_id").append(data.result);
+				$("#employee_id").show();
+			
+			},
+			beforeSend: function(){
+				$("#employee_id").hide();
+			},
+		});
+	}
+</script>
 @endif
 
 
@@ -44,6 +67,9 @@
 	      dateFormat: "yy-mm-dd",
 	      yearRange: '1945:{{ date("Y") }}',
 	    });
+
+	    $(".select2").select2();
+
 	  } );
 
 </script>

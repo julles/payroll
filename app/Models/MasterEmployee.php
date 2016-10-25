@@ -21,4 +21,9 @@ class MasterEmployee extends Model
     {
     	return $this->hasMany(Absent::class,'employee_id');
     }
+
+    public function getNipNameAttribute()
+    {
+        return $this->nip.' - '.$this->name;
+    }
 }

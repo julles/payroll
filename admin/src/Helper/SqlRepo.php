@@ -2,6 +2,8 @@
 
 use App\Models\MasterDepartment;
 use App\Models\MasterEmployee;
+use App\Models\EmployeeLeave;
+use App\Models\Absent;
 use App\Models\MasterPosition;
 use App\User;
 use App\Models\MasterCalendar;
@@ -97,6 +99,38 @@ class SqlRepo
         $totalCarbon = $end_date->diffInDays($start_date) + 1 - $countCalendar - $countSaturydaySunday;
     	
         return $totalCarbon;
+    }
+
+    public function comboEmployeeSakit($date)
+    {
+    	$tanggal = explode("-",$date);
+
+    	$model = new MasterEmployee;
+
+    	$cekAbsent = Absent::select('employee_id')
+    	->whereRaw("YEAR(`enter`) = $tanggal[0] AND MONTH(`enter`)=$tanggal[1] AND DAY(`enter`)=$tanggal[2]")
+    	->get()
+    	->toArray();
+
+    	$cekAbsent = array_flatten($cekAbsent);
+
+    	$cekCuti = EmployeeLeave::select('employee_id')
+    	->where('start_date','<=',$date)
+    	->where('end_date','>=',$date)
+    	->where('status','=','approve')
+    	->get()
+    	->toArray();
+
+    	$cekCuti = array_flatten($cekCuti);
+
+    	$ids = $cekAbsent + $cekCuti;
+
+    	$query = $model->whereNotIn('id' , $ids)
+    		->get()
+    		->lists('nip_name','id')
+    		->toArray();
+
+    	return $query;
     }
 
 }

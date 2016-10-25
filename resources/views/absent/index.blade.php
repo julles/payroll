@@ -5,7 +5,6 @@
   <div class="login-box-body">
     <p class="login-box-msg">ABSENT DISINI</p>
 
-    {!! Form::open() !!}
       <div class="form-group has-feedback">
         {!! Form::text('nip',null,['class'=>'form-control','placeholder'=>'Masukan NIP Anda','id'=>'nip']) !!}
         <span class="glyphicon glyphicon-user form-control-feedback"></span>
@@ -20,7 +19,6 @@
         </div>
         <!-- /.col -->
       </div>
-    {!! Form::close() !!}
     <!-- /.social-auth-links -->
   </div>
   <!-- /.login-box-body -->
@@ -29,7 +27,6 @@
 <script type="text/javascript">
   
   $(document).ready(function(){
-
       $("#nip").on('keyup',function(){
         $.ajax({
           url:'{{ url("absent/cek") }}',
