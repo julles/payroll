@@ -69,4 +69,28 @@ class CutiController extends AdminController
         
         return view($this->view.'view',compact('model'));
     }
+
+    public function getApprove($id)
+    {
+        $model = $this->model->findOrFail($id);
+        $model->update([
+            'status'=>'approve',
+            'approve_id'=>user()->id,
+        ]);
+
+        return redirect(Admin::urlBackendAction('index'))
+            ->withSuccess('Cuti telah di approve');
+    }
+
+    public function getReject($id)
+    {
+        $model = $this->model->findOrFail($id);
+        $model->update([
+            'status'=>'reject',
+            'approve_id'=>user()->id,
+        ]);
+
+        return redirect(Admin::urlBackendAction('index'))
+            ->withSuccess('Cuti telah di Reject');
+    }
 }
