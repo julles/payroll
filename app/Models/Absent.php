@@ -10,6 +10,8 @@ class Absent extends Model
 {
 	public $guarded = [];
 
+	public $dates = ['enter','exit'];
+
     public function employee()
     {
     	return $this->belongsTo(MasterEmployee::class,'employee_id');

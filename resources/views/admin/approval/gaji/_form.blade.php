@@ -18,11 +18,12 @@
                       
                       <div class="form-group">
                         <label for="exampleInputEmail1">Tahun</label>
-                        <?= Form::text('year' , null , ['class'=>'form-control','id'=>'year']) ?>
+                        <?= Form::select('year' , $years , request()->get('year') , ['class'=>'form-control','id'=>'year']) ?>
                       </div>
                       <div class="form-group">
                         <label for="exampleInputEmail1">Bulan</label>
-                        <?= Form::selectRange('month' , 1,12 , null , ['class'=>'form-control','id'=>'month']) ?>
+                        <?= Form::text('month_display' , date('F'), ['class'=>'form-control','readonly'=>true]) ?>
+                        <?= Form::hidden('month' , date('m'),['id'=>'month']) ?>
                       </div>
                     </div>
                     <!-- /.box-body -->
@@ -37,9 +38,12 @@
                           <thead>
                             <th>Name</th>
                             <th>Gaji Pokok</th>
+                            <th>Total Uang Makan</th>
+                            <th>Total Transport</th>
                             <th>Lembur</th>
                             <th>THR</th>
                             <th>PPH21</th>
+                            <th>Total</th>
                           </thead>
                           <tbody id = "tbody">
                             
