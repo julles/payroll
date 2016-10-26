@@ -46,3 +46,11 @@
             'slug'=>'approval-sakit-izin-alpha',
             'order'=>2,
         ],['index','delete','create']);
+
+        \Admin::addMenu([
+            'parent_id'=>'approval',
+            'title'=>'Gaji,Bonus dan THR',
+            'controller'=>'Admin\Approval\GajiController',
+            'slug'=>'approval-gaji',
+            'order'=>2,
+        ],['index','update','delete','view','create']);

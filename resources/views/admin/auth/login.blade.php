@@ -15,12 +15,13 @@
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="row">
-        <div class="col-xs-8">
+        <div class="col-xs-6">
           <a href="{{ url('login/forgot') }}">I forgot my password</a><br>
         </div>
         <!-- /.col -->
-        <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+        <div class="col-xs-6">
+          <button type="submit" class="btn btn-primary btn-sm">Sign In</button>
+          <a href = "{{ url('absent') }}" class="btn btn-success btn-sm">Absen</a>
         </div>
         <!-- /.col -->
       </div>
