@@ -104,6 +104,8 @@
                     </div>
 
                     {!! Html::link(Admin::urlBackendAction('index'),'Back',['class'=>'btn btn-success']) !!}
+                    
+                    {!! Html::link('#','Update Finger Print',['class'=>'btn btn-info','id'=>'finger']) !!}
 
                   </div>
                   <!-- /.box-body -->
@@ -115,3 +117,18 @@
   </div>
   <!-- /.content-wrapper -->
 @endsection
+@push('scripts')
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#finger").on('click',function(){
+      $.ajax({
+        type:'get',
+        url : '{{ url("api/update/".$model->nip."/reg,1") }}',
+        success : function(){
+          document.location.href = '{{ Admin::urlBackendAction("view/".$model->id) }}';
+        },
+      });
+    });
+  });
+</script>
+@endpush

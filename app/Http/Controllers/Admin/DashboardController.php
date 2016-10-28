@@ -6,17 +6,33 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Carbon\Carbon;
+use App\Models\AbsenNotPresent;
+use App\Models\EmployeeLeave;
+
 class DashboardController extends Controller
 {
     public function getIndex()
     {
     	$date = date("Y-m-d");
+    	
     	$resultDate = [];
     	
+    	$data = [];
+
     	for($a=5;$a>=0;$a--)
     	{
     		$convert = strtotime("$date -$a day");
+    		
+    		$ymd =date("Y-m-d",$convert);
+
+    		$hitAlpha = AbsenNotPresent::where('date',$ymd)->count();
+
+    		$hitCuti = EmployeeLeave::where('start_date','<=',$ymd)
+    			->where('end_date','>=',$ymd)
+    			->count();
+
+    		$data[] = $hitAlpha + $hitCuti;
+
     		$resultDate[] =date("d, F Y",$convert);
     	}
 
@@ -35,10 +51,11 @@ class DashboardController extends Controller
 		    'series' => [
 		        [
 		            'name' => 'Reza',
-		            'data' => [1,2,3,4,5]
+		            'data' => $data,
 		        ],
 		    ]
 		];
+
 		return view('admin.dashboard.index',[
     		'charts'=>$charts,
     	]);

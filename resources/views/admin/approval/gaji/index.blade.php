@@ -20,7 +20,8 @@
                     <table class="table table-bordered" id = ''>
                       <thead>
                           <tr>
-                            <th>ID</th>
+                            <th>Tahun</th>
+                            <th>Bulan</th>
                             <th>Action</th>
                           </tr>
                       </thead>
@@ -45,7 +46,8 @@
         serverSide: true,
         ajax: '{!! Admin::urlBackendAction("data") !!}',
         columns: [
-            { data: 'id', name: 'id' },
+            { data: 'year', name: 'year' },
+            { data: 'month', name: 'month' },
             { data: 'action', name: 'action' ,ordering:false,searchable:'false'},
             
         ]

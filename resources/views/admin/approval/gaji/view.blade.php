@@ -18,19 +18,17 @@
                       
                       <div class="form-group">
                         <label for="exampleInputEmail1">Tahun</label>
-                        <?= Form::selectRange('year' , date("Y")-4 , date("Y"),request()->get('year') , ['class'=>'form-control','id'=>'year']) ?>
+                        {!! Form::text('year',null,['class'=>'form-control','readonly'=>true]) !!}
                       </div>
                       <div class="form-group">
                         <label for="exampleInputEmail1">Bulan</label>
-                        <?= Form::selectRange('month' , 1,12,null, ['class'=>'form-control','id'=>'month']) ?>
+                        {!! Form::text('month',null,['class'=>'form-control','readonly'=>true]) !!}
                       </div>
                     </div>
                     <!-- /.box-body -->
 
                     <div class="box-footer">
-                      <button class="btn btn-primary" type="button" id = "generate">Generate</button>
-                      <button class="btn btn-success" type="submit" id = "">Simpan</button>
-                      {!! Html::image(asset('loading.gif') , 'loading' , ['id'=>'loading','style'=>'display:none;']) !!}
+                      {!! Html::link(Admin::urlBackendAction('excel/'.$model->id),'Export Excel',['class'=>'btn btn-success']) !!}
                     </div>
 
                     <div class="box-body">
@@ -48,7 +46,18 @@
                             </tr>
                           </thead>
                           <tbody id = "tbody">
-                            
+                            @foreach($model->details as $row)  
+                              <tr>
+                                <td>{{ $row->employee->nip }} - {{ $row->employee->name }}</td>
+                                <td>{{ Admin::formatMoney($row->gaji_pokok) }}</td>
+                                <td>{{ Admin::formatMoney($row->total_uang_makan) }}</td>
+                                <td>{{ Admin::formatMoney($row->total_transport) }}</td>
+                                <td>{{ Admin::formatMoney($row->total_lembur) }}</td>
+                                <td>{{ Admin::formatMoney($row->thr) }}</td>
+                                <td>{{ Admin::formatMoney($row->pph21) }}</td>
+                                <td>{{ Admin::formatMoney($row->total) }}</td>
+                              </tr>
+                            @endforeach
                           </tbody>
                       </table>
                     </div>
@@ -63,38 +72,3 @@
   </div>
   <!-- /.content-wrapper -->
 @endsection
-@push('scripts')
-<script type="text/javascript">
-  $(document).ready(function(){
-      $("#generate").on('click' , function(){
-          year = $("#year").val();
-          month = $("#month").val();
-
-          if(year == "")
-          {
-            alert("Tahun harus di isi");
-          }else{
-              $.ajax({
-                url : '{{ Admin::urlBackendAction("generate") }}',
-                data : {
-                  year : year,
-                  month :  month,
-                },
-                beforeSend : function(){
-                  $("#generate").hide();
-                  $("#loading").show();
-                },
-                success : function(data){
-                  $("#generate").show();
-                  $("#loading").hide();
-
-                  $("#tbody").html("");
-                  $("#tbody").html(data.result);
-                },
-              });
-          }
-      });
-  });
-
-</script>
-@endpush

@@ -7,11 +7,13 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Admin\AdminController;
 use App\Models\Pay;
+use App\Models\PayDetail;
 use App\Models\MasterEmployee;
 use App\Models\Absent;
 use Table;
 use Admin;
 use SqlRepo;
+use Excel;
 
 class GajiController extends AdminController
 {
@@ -25,7 +27,7 @@ class GajiController extends AdminController
     public function getData()
     {
         $fields = [
-            'id',
+            'id','year','month',
         ];
 
         $model = $this->model->select($fields);
@@ -44,19 +46,7 @@ class GajiController extends AdminController
 
     public function years()
     {
-        $cek = Pay::select(\DB::raw("YEAR(`year`)"))->groupBy("YEAR(`year`)")->get()->toArray();
-        if(!empty($cek))
-        {
-            $result = [];
 
-            foreach($cek as $row)
-            {
-                $result[$row]=$row;
-            }
-        }else{
-            $result = [date("Y") => date("Y")];
-        }
-        return $result;
     }
 
     
@@ -69,6 +59,58 @@ class GajiController extends AdminController
         ]);
     }
 
+    public function postCreate(Request $request)
+    {
+        $cek = Pay::where('year',$request->year)
+            ->where('month',$request->month)
+            ->first();
+
+        if(!empty($cek))
+        {
+            return redirect()->back()
+                ->withInfo('maaf data tersebut sudah ada');
+        }
+
+            $count = count($request->employee_id);
+
+            if($count > 0)
+            {
+                   $pay = Pay::create([
+                        'year'=>$request->year,
+                        'month'=>$request->month,
+                        'user_id'=>user()->id,
+                    ]);
+
+                    $datas = [];
+
+                    for($a=0;$a<$count;$a++)
+                    {
+                        
+                            $datas[] = [
+                                'pay_id'=>$pay->id,
+                                'employee_id'=>$request->employee_id[$a],
+                                'gaji_pokok'=>$request->gaji_pokok[$a],
+                                'total_uang_makan'=>$request->total_uang_makan[$a],
+                                'total_transport'=>$request->total_transport[$a],
+                                'total_lembur'=>$request->total_lembur[$a],
+                                'thr'=>$request->thr[$a],
+                                'pph21'=>$request->pph21[$a],
+                                'total'=>$request->pph21[$a],
+                            ];
+                        
+                    }
+
+                    PayDetail::insert($datas);
+
+                    return redirect(Admin::urlBackendAction('index'))
+                        ->withSuccess('data telah disimpan');
+            }else{
+                    return redirect()
+                        ->back()
+                        ->withInfo('anda belum menggenarate apapun');
+            }
+    }
+
     public function getGenerate()
     {
     	$year = request()->get('year');
@@ -76,7 +118,7 @@ class GajiController extends AdminController
 
     	$model = MasterEmployee::all();
 
-    	$str = "<tr>";
+    	$str = "";
 
     	foreach($model as $row){
             $totalUangMakan = SqlRepo::totalUangMakan($row,$year,$month);
@@ -86,24 +128,47 @@ class GajiController extends AdminController
             $totalPenghasilanSebelumPph = SqlRepo::totalPenghasilanSebelumPph($row,$year,$month);
             $countPph = SqlRepo::countPph($row,$totalPenghasilanSebelumPph);
             $total = $totalPenghasilanSebelumPph - $countPph + $countThr + 1;
+            $str .= "<tr>";
+    		$str .= "<td><input type = 'hidden' name = 'employee_id[]' value = '$row->id'/>".$row->nip.'-'.$row->name."</td>";
+    		$str .= "<td><input type = 'hidden' name = 'gaji_pokok[]' value = '$row->basic_salary' />".Admin::formatMoney($row->basic_salary)."</td>";
+            $str .= "<td><input type = 'hidden' name = 'total_uang_makan[]' value = '$row->totalUangMakan' />".Admin::formatMoney($totalUangMakan)."</td>";
+            $str .= "<td><input type = 'hidden' name = 'total_transport[]' value = '$totalTransport'/>".Admin::formatMoney($totalTransport)."</td>";
+    		$str .= "<td><input type = 'hidden' name = 'total_lembur[]' value = '$countLembur' />".Admin::formatMoney($countLembur)."</td>";
+    		$str .= "<td><input type = 'hidden' name = 'thr[]' value = '$countThr' />".Admin::formatMoney($countThr)."</td>";
+            $str .= "<td><input type = 'hidden' name = 'pph21[]' value = '$countPph'/>".Admin::formatMoney($countPph)."</td>";
+    		$str .= "<td><input type = 'hidden' name = 'total[]' value ='$total' />".Admin::formatMoney($total)."</td>";
+    	   $str .= "</tr>";
             
-    		$str .= "<td>".$row->nip.'-'.$row->name."</td>";
-    		$str .= "<td>".Admin::formatMoney($row->basic_salary)."</td>";
-            $str .= "<td>".Admin::formatMoney($totalUangMakan)."</td>";
-            $str .= "<td>".Admin::formatMoney($totalTransport)."</td>";
-    		$str .= "<td>".Admin::formatMoney($countLembur)."</td>";
-    		$str .= "<td>".Admin::formatMoney($countThr)."</td>";
-            $str .= "<td>".Admin::formatMoney($countPph)."</td>";
-    		$str .= "<td>".Admin::formatMoney($total)."</td>";
-    	}
+        }
 
-    	$str .= "</tr>";
-
+    	
     	return response()->json([
     		'result'=>$str,
     	]);
     }
 
-    
+    public function getView($id)
+    {
+        $model = $this->model->findOrFail($id);
 
-}
+        return view($this->view.'view',compact('model'));
+    }
+
+    public function getExcel($id)
+    {
+        Excel::create('excel', function($excel) use($id){
+            $excel->sheet('New sheet', function($sheet) use($id) {
+                $model = $this->model->findOrFail($id);
+                $sheet->loadView($this->view.'excel',['model'=>$model]);
+
+            });
+
+        })->download('xls');
+    }
+
+    public function getDelete($id)
+    {
+        return $this->delete($this->model->findOrFail($id));
+    }       
+
+}   

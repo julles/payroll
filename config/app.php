@@ -161,6 +161,7 @@ return [
         Cviebrock\EloquentSluggable\ServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Oblagio\Highcharts\Provider::class,
+        'Maatwebsite\Excel\ExcelServiceProvider',
     ],
 
     /*
@@ -214,6 +215,7 @@ return [
         'SqlRepo'=>Admin\Facades\SqlRepoFacade::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Chart' => Oblagio\Highcharts\Facade::class,
+        'Excel' => 'Maatwebsite\Excel\Facades\Excel',
     ],
 
 ];
