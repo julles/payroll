@@ -79,10 +79,6 @@
                                 <td>{{ $model->number_id }}</td>
                               </tr>
                               <tr>
-                                <td><b>E-Mail</b></td>
-                                <td>{{ $model->email }}</td>
-                              </tr>
-                              <tr>
                                 <td><b>Tanggal masuk</b></td>
                                 <td>{{ $model->join_date->format("d , F Y") }}</td>
                               </tr>

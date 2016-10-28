@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "72844c9fda2e566c1e01b82364005cd4",
-    "content-hash": "63e8ec7ffdf1c465b443c7117d706c56",
+    "hash": "a81ab7db9745c99cd320a2a0eec5ebc2",
+    "content-hash": "b2ad81d75f4912840461ed9a0a972c32",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -1522,6 +1522,43 @@
                 "schedule"
             ],
             "time": "2016-01-26 21:23:30"
+        },
+        {
+            "name": "muhamadrezaar/highcharts",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/julles/laravel-highcharts.git",
+                "reference": "d926e2c99c301b46d9a362fdd98f7302c1b01021"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/julles/laravel-highcharts/zipball/d926e2c99c301b46d9a362fdd98f7302c1b01021",
+                "reference": "d926e2c99c301b46d9a362fdd98f7302c1b01021",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Oblagio\\Highcharts\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Muhamad Reza Abdul Rohim",
+                    "email": "reza.wikrama3@gmail.com"
+                }
+            ],
+            "description": "Laravel Highcarts Packages",
+            "keywords": [
+                "highcharts",
+                "laravel"
+            ],
+            "time": "2016-03-22 19:06:01"
         },
         {
             "name": "nesbot/carbon",

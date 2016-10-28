@@ -90,7 +90,9 @@
 <!-- REQUIRED JS SCRIPTS -->
 
 <!-- jQuery 2.2.3 -->
-<script src="{{ Admin::assetAdmin() }}/plugins/jQuery/jquery-2.2.3.min.js"></script>
+@if(request()->segment(2) != 'dashboard')
+  <script src="{{ Admin::assetAdmin() }}/plugins/jQuery/jquery-2.2.3.min.js"></script>
+@endif
 <!-- Bootstrap 3.3.6 -->
 <script src="{{ Admin::assetAdmin() }}/bootstrap/js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
@@ -98,6 +100,7 @@
 <script src="{{ Admin::assetAdmin() }}/plugins/datatables/jquery.dataTables.min.js"></script>
 
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.full.min.js"></script>
 
 <?php /*<script src="{{asset('1.8.0.js')}}"></script> */ ?>

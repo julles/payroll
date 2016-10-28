@@ -160,6 +160,7 @@ return [
         Admin\Providers\AdminProvider::class,
         Cviebrock\EloquentSluggable\ServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Oblagio\Highcharts\Provider::class,
     ],
 
     /*
@@ -211,7 +212,8 @@ return [
         'Admin'=>Admin\Facades\AdminFacade::class,
         'Site'=>Admin\Facades\SiteFacade::class,
         'SqlRepo'=>Admin\Facades\SqlRepoFacade::class,
-        'Image' => Intervention\Image\Facades\Image::class
+        'Image' => Intervention\Image\Facades\Image::class,
+        'Chart' => Oblagio\Highcharts\Facade::class,
     ],
 
 ];
