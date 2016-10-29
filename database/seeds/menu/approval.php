@@ -1,4 +1,4 @@
-a<?php
+<?php
 \Admin::addMenu([
             'parent_id'=>null,
             'title'=>'Approval',
@@ -61,4 +61,4 @@ a<?php
                 'controller'=>'Admin\Approval\GajiController',
                 'slug'=>'approval-gaji',
                 'order'=>2,
-            ],['index','delete','view','create']);
+            ],['index','delete','view','create','approve']);

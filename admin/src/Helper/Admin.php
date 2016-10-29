@@ -239,6 +239,15 @@ class Admin
 			]);
 	}
 
+	public function linkApprove($plus="")
+	{
+		$approve = $this->cekRight('approve');
+		if($approve == 'true')
+			return Html::link($this->urlBackendAction('approve/'.$plus),'Approve',[
+				'class'=>'btn btn-success',
+			]);
+	}
+
 	public function linkUpdate($plus="")
 	{
 		$update = $this->cekRight('update');
@@ -280,7 +289,7 @@ class Admin
 	{
 		$actions = $this->inject('Action')
 			->select('code')
-			->whereNotIn('code',['create','index'])
+			->whereNotIn('code',['create','index','approve'])
 			->get();
 
 		$links = "";
@@ -440,6 +449,11 @@ class Admin
 		return $substring;
 	}
 
+	public function toInteger($str)
+	{
+		return $replace = str_replace(".", "", $str);
+	}
+
 	public function toString($string = "")
 	{
 		$replace = str_replace("_"," ",$string);
@@ -453,4 +467,6 @@ class Admin
 
 		return strtolower($replace);
 	}
+
+
 }

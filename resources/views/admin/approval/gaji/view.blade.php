@@ -28,7 +28,7 @@
                     <!-- /.box-body -->
 
                     <div class="box-footer">
-                      {!! Html::link(Admin::urlBackendAction('excel/'.$model->id),'Export Excel',['class'=>'btn btn-success']) !!}
+                      {!! Html::link(Admin::urlBackendAction('excel/'.$model->id),'Export Excel',['class'=>'btn btn-info']) !!}
                     </div>
 
                     <div class="box-body">
@@ -43,6 +43,7 @@
                               <th>THR</th>
                               <th>PPH21</th>
                               <th>Total</th>
+                              <th>-</th>
                             </tr>
                           </thead>
                           <tbody id = "tbody">
@@ -56,10 +57,17 @@
                                 <td>{{ Admin::formatMoney($row->thr) }}</td>
                                 <td>{{ Admin::formatMoney($row->pph21) }}</td>
                                 <td>{{ Admin::formatMoney($row->total) }}</td>
+                                <td>{!! Html::link(Admin::urlBackendAction('slip/'.$row->id) , 'Print Slip Gaji',['target'=>'_blank']) !!}</td>
                               </tr>
                             @endforeach
                           </tbody>
                       </table>
+                      <div>
+                      @if($model->status == 'pending')
+                         {!! Admin::linkApprove($model->id) !!}
+                      @endif
+                      </div>
+                       
                     </div>
 
                   {!! Form::close() !!}

@@ -27,7 +27,7 @@ class GajiController extends AdminController
     public function getData()
     {
         $fields = [
-            'id','year','month',
+            'id','year','month','status'
         ];
 
         $model = $this->model->select($fields);
@@ -89,13 +89,14 @@ class GajiController extends AdminController
                             $datas[] = [
                                 'pay_id'=>$pay->id,
                                 'employee_id'=>$request->employee_id[$a],
-                                'gaji_pokok'=>$request->gaji_pokok[$a],
-                                'total_uang_makan'=>$request->total_uang_makan[$a],
-                                'total_transport'=>$request->total_transport[$a],
-                                'total_lembur'=>$request->total_lembur[$a],
-                                'thr'=>$request->thr[$a],
-                                'pph21'=>$request->pph21[$a],
-                                'total'=>$request->pph21[$a],
+                                'gaji_pokok'=>Admin::toInteger($request->gaji_pokok[$a]),
+                                'total_uang_makan'=>Admin::toInteger($request->total_uang_makan[$a]),
+                                'total_transport'=>Admin::toInteger($request->total_transport[$a]),
+                                'total_lembur'=>Admin::toInteger($request->total_lembur[$a]),
+                                'thr'=>Admin::toInteger($request->thr[$a]),
+                                'pph21'=>Admin::toInteger($request->pph21[$a]),
+                                'total'=>Admin::toInteger($request->total[$a]),
+                                'created_at'=>date('Y-m-d H:i:s'),
                             ];
                         
                     }
@@ -127,7 +128,7 @@ class GajiController extends AdminController
             $countThr = SqlRepo::countThr($row,$year,$month);
             $totalPenghasilanSebelumPph = SqlRepo::totalPenghasilanSebelumPph($row,$year,$month);
             $countPph = SqlRepo::countPph($row,$totalPenghasilanSebelumPph);
-            $total = $totalPenghasilanSebelumPph - $countPph + $countThr + 1;
+            $total = $totalPenghasilanSebelumPph - $countPph + $countThr;
             $str .= "<tr>";
     		$str .= "<td><input type = 'hidden' name = 'employee_id[]' value = '$row->id'/>".$row->nip.'-'.$row->name."</td>";
     		$str .= "<td><input type = 'hidden' name = 'gaji_pokok[]' value = '$row->basic_salary' />".Admin::formatMoney($row->basic_salary)."</td>";
@@ -156,6 +157,13 @@ class GajiController extends AdminController
 
     public function getExcel($id)
     {
+        $model = $this->model->findOrFail($id);
+
+        if($model->status == 'pending')
+        {
+            return redirect()->back()->withInfo('Data tidak bisa digenerate, data gaji belum di approve');
+        }
+        
         Excel::create('excel', function($excel) use($id){
             $excel->sheet('New sheet', function($sheet) use($id) {
                 $model = $this->model->findOrFail($id);
@@ -164,6 +172,26 @@ class GajiController extends AdminController
             });
 
         })->download('xls');
+    }
+
+    public function getSlip($id)
+    {
+        $model = PayDetail::findOrFail($id);
+        if($model->pay->status == 'pending')
+        {
+            return redirect()->back()->withInfo('Data tidak bisa digenerate, data gaji belum di approve');
+        }
+        return view($this->view.'slip',compact('model'));
+    }
+
+    public function getApprove($id)
+    {
+        $model = Pay::findOrFail($id);
+        $model->update([
+            'status'=>'approve',
+        ]);
+        return redirect()->back()->withSuccess('Gaji telah di approve');
+        
     }
 
     public function getDelete($id)
